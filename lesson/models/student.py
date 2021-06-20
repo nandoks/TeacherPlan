@@ -19,4 +19,5 @@ class Student(models.Model):
                            blank=True)
     L2 = models.ManyToManyField(to='utilities.Language', related_name='l2_student1', blank=True)
     level = models.CharField(max_length=30, choices=Level.choices, default=Level.Un, null=True, blank=True)
-    lesson = models.OneToOneField(to='lesson.Lesson', blank=True, null=True, on_delete=models.CASCADE)
+
+

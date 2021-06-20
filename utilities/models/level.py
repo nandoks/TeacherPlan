@@ -13,3 +13,10 @@ class Level(models.TextChoices):
 
     def __str__(self):
         return self.value
+
+    def to_tuple():
+        levels = []
+        for label, value in Level.choices:
+            levels.append((value, label))
+            print(levels)
+        return levels

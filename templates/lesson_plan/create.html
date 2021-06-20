@@ -9,7 +9,7 @@
             <form action="{% url 'create_lesson_plan' %}" method="POST">
                 {% csrf_token %}
                 {% for field in create_form.visible_fields %}
-                    <div class="form-group">
+                    <div class="form-group mb-2">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                         {{ field|add_class:'form-control' }}
                     </div>
