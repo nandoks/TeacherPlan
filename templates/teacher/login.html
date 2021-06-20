@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% load widget_tweaks %}
+    <section class="container col-8">
+        <div class="container mt-2">
+            <h1>Login</h1>
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                {% for field in login_form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field|add_class:'form-control' }}
+                    </div>
+                    {% for error in field.errors %}
+                        <section class="alert alert-danger" role="alert">
+                            {{ field.errors }}
+                        </section>
+                    {% endfor %}
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}

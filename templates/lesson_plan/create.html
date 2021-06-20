@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load widget_tweaks %}
+
+    <section class="container col-8">
+        <div class="container mt-2">
+            <h1>Create a new Lesson Plan</h1>
+
+            <form action="{% url 'create_lesson_plan' %}" method="POST">
+                {% csrf_token %}
+                {% for field in create_form.visible_fields %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field|add_class:'form-control' }}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-success">Create</button>
+            </form>
+        </div>
+    </section>
+
+
+{% endblock %}
