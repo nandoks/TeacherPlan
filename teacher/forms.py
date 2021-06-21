@@ -18,7 +18,6 @@ class TeacherRegisterForms(forms.Form):
         password = self.cleaned_data.get('password')
         password_confirmation = self.cleaned_data.get('password_confirmation')
         error_list = {}
-        print(first_name, last_name)
         is_characters_only(first_name, 'first_name', error_list)
         is_characters_only(last_name, 'last_name', error_list)
         password_match(password, password_confirmation, error_list)

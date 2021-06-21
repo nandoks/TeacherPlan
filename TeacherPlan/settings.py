@@ -18,7 +18,6 @@ from secret import *
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -29,7 +28,6 @@ SECRET_KEY = django_secret_key
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -43,9 +41,11 @@ INSTALLED_APPS = [
     'lesson',
     'utilities',
     'lesson_plan',
+    'student',
     'feedback',
     'teacher',
     'widget_tweaks',
+    'multiselectfield',
 ]
 
 MIDDLEWARE = [
@@ -78,7 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'TeacherPlan.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -91,7 +90,6 @@ DATABASES = {
         'HOST': 'localhost',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -125,7 +123,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

@@ -16,7 +16,7 @@ def register(request):
             last_name = form.cleaned_data['last_name']
             password = form.cleaned_data['password']
             if CustomUser.objects.filter(email=email).exists():
-                return redirect('register')
+                return redirect('register_teacher')
 
             user = CustomUser.objects.create_user(email=email, password=password, first_name=first_name,
                                                   last_name=last_name)

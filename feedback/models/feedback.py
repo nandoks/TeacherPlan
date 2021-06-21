@@ -11,4 +11,4 @@ class Feedback(models.Model):
     praise = models.TextField(blank=True)
     teacher_only = models.TextField(blank=True)
     lesson = models.OneToOneField(to='lesson.Lesson', on_delete=models.DO_NOTHING, null=True)
-    student = models.ForeignKey(to='lesson.Student', on_delete=models.DO_NOTHING, null=True, blank=True)
+    student = models.ForeignKey(to='student.Student', on_delete=models.DO_NOTHING, null=True, blank=True)

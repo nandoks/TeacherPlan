@@ -8,12 +8,83 @@
 
             <form action="{% url 'create_lesson_plan' %}" method="POST">
                 {% csrf_token %}
-                {% for field in create_form.visible_fields %}
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+                <div class="row">
                     <div class="form-group mb-2">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        {{ field|add_class:'form-control' }}
+                        <label for="{{ create_form.title.id_for_label }}">{{ create_form.title.label }}</label>
+                        {{ create_form.title|add_class:'form-control' }}
                     </div>
-                {% endfor %}
+                    {{ create_form.level.title }}
+                </div>
+
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label for="{{ create_form.lesson_link.id_for_label }}">{{ create_form.lesson_link.label }}</label>
+                        {{ create_form.lesson_link|add_class:'form-control' }}
+                    </div>
+                    {{ create_form.lesson_link.error }}
+                </div>
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label for="{{ create_form.levels.id_for_label }}">{{ create_form.levels.label }}</label>
+                        {{ create_form.levels|add_class:'' }}
+                    </div>
+                    {{ create_form.level.error }}
+                </div>
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label class="form-select-label" for="lesson">Choose the lesson you want to associate this
+                            lesson plan to:</label>
+                        <select class="form-select" name="lesson_id" id="lesson_id">
+                            <option value="{{ None }}" selected>Choose your lesson</option>
+                            {% for lesson in lessons %}
+                                <option value="{{ lesson.id }}">{{ lesson }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group-inline mb-2">
+                        <label for="{{ create_form.private.id_for_label }}">{{ create_form.private.label }}</label>
+                        {{ create_form.private|add_class:'checkbox' }}
+                        {{ create_form.private.error }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label for="{{ create_form.task.id_for_label }}">{{ create_form.task.label }}</label>
+                        {{ create_form.task|add_class:'form-control' }}
+                        {{ create_form.task.error }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label for="{{ create_form.pre_task.id_for_label }}">{{ create_form.pre_task.label }}</label>
+                        {{ create_form.pre_task|add_class:'form-control' }}
+                        {{ create_form.pre_task.error }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label for="{{ create_form.ccq.id_for_label }}">{{ create_form.ccq.label }}</label>
+                        {{ create_form.ccq|add_class:'form-control' }}
+                        {{ create_form.ccq.error }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label for="{{ create_form.warmup.id_for_label }}">{{ create_form.warmup.label }}</label>
+                        {{ create_form.warmup|add_class:'form-control' }}
+                        {{ create_form.warmup.error }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label for="{{ create_form.outline.id_for_label }}">{{ create_form.outline.label }}</label>
+                        {{ create_form.outline|add_class:'form-control' }}
+                        {{ create_form.warmup.error }}
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-success">Create</button>
             </form>
         </div>
