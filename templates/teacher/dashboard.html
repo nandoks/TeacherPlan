@@ -12,42 +12,44 @@
                         <td>Date</td>
                         <td>Starts at</td>
                         <td>Ends at</td>
+                        <td>Status</td>
                         <td>Student</td>
-                        <td>Title</td>
                         <td>Lesson Plan</td>
                         <td>Subject</td>
                     </tr>
                     </thead>
-                    <tfoot>
-{#                    <tr>#}
-{#                        <td>Date</td>#}
-{#                        <td>Starts at</td>#}
-{#                        <td>Ends at</td>#}
-{#                        <td>Student</td>#}
-{#                        <td>Lesson Plan</td>#}
-{#                        <td>Subject</td>#}
-{#                    </tr>#}
-                    </tfoot>
                     <tbody>
                     {% for lesson in next_lessons %}
                         <tr>
                             <td>{{ lesson.date|date:'d/m/Y' }}</td>
                             <td>{{ lesson.start|time }}</td>
                             <td>{{ lesson.end }}</td>
-                            <td>{{ lesson.student }}</td>
-                            <td>{{ lesson.lesson_plan.title }}</td>
                             <td>
-                                {% if lesson_plan %}
-                                    {{ lesson.lesson_plan }}
+                                {% if lesson.canceled %}
+                                    Canceled
+                                {% else %}
+                                    Booked
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'student_detail' lesson.student.id %}">
+                                {{ lesson.student }}
+                                </a>
+                            </td>
+                            <td>
+                                {% if lesson.lesson_plan %}
+                                    {{ lesson.lesson_plan.title }}
+                                {% else %}
+                                    N/A
                                 {% endif %}
                             </td>
                             <td>
                                 {% if lesson.subject %}
                                     {% for subject in lesson.subject.all %}
-                                        {{ subject.name}}
+                                        {{ subject.name }}
                                         {% if not forloop.last %}
-                                        ,
-                                        {% endif %} 
+                                            ,
+                                        {% endif %}
                                     {% endfor %}
                                 {% endif %}
                             </td>

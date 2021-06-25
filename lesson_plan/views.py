@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
@@ -10,7 +12,7 @@ from .forms import CreateLessonPlanForms
 @login_required(login_url='login')
 def create(request):
     teacher_id = Teacher.objects.values_list('id', flat=True).filter(user_id=request.user.id)[0]
-    lesson = Lesson.objects.filter(teacher_id=teacher_id)
+    lesson = Lesson.objects.filter(teacher_id=teacher_id, date__gt=date.today())
 
     if request.method == 'POST':
         form = CreateLessonPlanForms(request.POST)

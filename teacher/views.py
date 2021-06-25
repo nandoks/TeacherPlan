@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
@@ -75,7 +77,7 @@ def logout(request):
 def dashboard(request):
     teacher_id = Teacher.objects.values_list('id', flat=True).filter(user_id=request.user.id)[0]
 
-    next_lessons = Lesson.objects.filter(teacher_id=teacher_id)
+    next_lessons = Lesson.objects.filter(teacher_id=teacher_id, date__gt=date.today())
 
     context = {
         'next_lessons': next_lessons,

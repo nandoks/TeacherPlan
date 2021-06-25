@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from student.forms import StudentRegisterForms
+from student.models import Student
 from teacher.models import Teacher
 
 @login_required(login_url='login')
@@ -26,3 +27,17 @@ def register_student(request):
         'register_form': register_form,
     }
     return render(request, 'student/register_student.html', context)
+
+
+@login_required()
+def student_detail(request, student_id):
+    student = Student.objects.get(pk=student_id)
+
+    context = {
+        'student': student,
+    }
+    return render(request, 'student/student_detail.html', context)
+
+@login_required()
+def modify_student(request, student_id):
+    return render(request, 'student/modify_student.html')
