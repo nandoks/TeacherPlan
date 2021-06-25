@@ -5,7 +5,7 @@
     <section class="container col-8">
         <div class="container mt-2">
             <h1>Register a Student</h1>
-            <form action="{% url 'register_student' %}" method="POST">
+            <form action="{% url 'register_lesson' %}" method="POST">
                 {% csrf_token %}
                 {% for field in register_form.visible_fields %}
                     <div class="form-group">

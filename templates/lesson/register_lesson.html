@@ -4,19 +4,51 @@
     <section class="container col-8">
         <div class="container mt-2">
             <h1>Register</h1>
-            <form action="{% url 'register_student' %}" method="POST">
+            <form action="" method="POST">
                 {% csrf_token %}
-                {% for field in register_form.visible_fields %}
-                    <div class="form-group">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        {{ field|add_class:'form-control' }}
+                <div class="row">
+                    <div class="form-group col -4">
+                        <label for="{{ register_form.date.id_for_label }}">{{ register_form.date.label }}</label>
+                        {{ register_form.date|add_class:'form-control' }}
+                        {% if register_form.date.errors %}
+                            <section class="alert alert-danger" role="alert">
+                                {{ register_form.date.errors }}
+                            </section>
+                        {% endif %}
                     </div>
-                    {% for error in field.errors %}
-                        <section class="alert alert-danger" role="alert">
-                            {{ field.errors }}
-                        </section>
-                    {% endfor %}
-                {% endfor %}
+
+                    <div class="form-group col-4">
+                        <label for="{{ register_form.start.id_for_label }}">{{ register_form.start.label }}</label>
+                        {{ register_form.start|add_class:'form-control timepicker' }}
+                        {% if register_form.start.errors %}
+                            <section class="alert alert-danger" role="alert">
+                                {{ register_form.start.errors }}
+                            </section>
+                        {% endif %}
+                    </div>
+                    <div class="form-group col-4">
+                        <label for="{{ register_form.end.id_for_label }}">{{ register_form.end.label }}</label>
+                        {{ register_form.end|add_class:'form-control' }}
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="student">Select your student for this lesson</label>
+                        <select class="form-control" name="student_id" id="student_id">
+                            {% for student in students %}
+                                <option value="{{ student.id }}">{{ student }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="{{ register_form.subject.id_for_label }}">{{ register_form.subject.label }}</label>
+                        {{ register_form.subject|add_class:'form-control' }}
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-success mt-3">Register</button>
             </form>
         </div>

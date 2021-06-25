@@ -1,8 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from student.forms import StudentRegisterForms
 from teacher.models import Teacher
 
-
+@login_required(login_url='login')
 def register_student(request):
     if request.method == 'POST':
         form = StudentRegisterForms(request.POST)

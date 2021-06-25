@@ -2,9 +2,61 @@
 
 {% block content %}
 
-    <div class="container mt-2">
-        <h1>Dashboard</h1>
-        <h1>Olá {{ user }}</h1>
-    </div>
+    <section class="container col-8">
+        <div class="container mt-2">
+            <h1> Hello {{ user }}</h1>
+            <div class="table-responsive">
+                <table class="table table-dark table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <td>Date</td>
+                        <td>Starts at</td>
+                        <td>Ends at</td>
+                        <td>Student</td>
+                        <td>Title</td>
+                        <td>Lesson Plan</td>
+                        <td>Subject</td>
+                    </tr>
+                    </thead>
+                    <tfoot>
+{#                    <tr>#}
+{#                        <td>Date</td>#}
+{#                        <td>Starts at</td>#}
+{#                        <td>Ends at</td>#}
+{#                        <td>Student</td>#}
+{#                        <td>Lesson Plan</td>#}
+{#                        <td>Subject</td>#}
+{#                    </tr>#}
+                    </tfoot>
+                    <tbody>
+                    {% for lesson in next_lessons %}
+                        <tr>
+                            <td>{{ lesson.date|date:'d/m/Y' }}</td>
+                            <td>{{ lesson.start|time }}</td>
+                            <td>{{ lesson.end }}</td>
+                            <td>{{ lesson.student }}</td>
+                            <td>{{ lesson.lesson_plan.title }}</td>
+                            <td>
+                                {% if lesson_plan %}
+                                    {{ lesson.lesson_plan }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if lesson.subject %}
+                                    {% for subject in lesson.subject.all %}
+                                        {{ subject.name}}
+                                        {% if not forloop.last %}
+                                        ,
+                                        {% endif %} 
+                                    {% endfor %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
+        </div>
+    </section>
 {% endblock %}

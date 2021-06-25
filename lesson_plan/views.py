@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from lesson.models import Lesson
@@ -6,7 +7,7 @@ from .forms import CreateLessonPlanForms
 
 
 # Create your views here.
-
+@login_required(login_url='login')
 def create(request):
     teacher_id = Teacher.objects.values_list('id', flat=True).filter(user_id=request.user.id)[0]
     lesson = Lesson.objects.filter(teacher_id=teacher_id)
