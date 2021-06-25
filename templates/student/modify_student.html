@@ -5,7 +5,18 @@
     <section class="container col-8">
         <div class="container mt-2">
             <h1>Modify Student</h1>
-
+            <form method="POST" action="{% url 'modify_student' student_id=modify_form.instance.id %}">
+                {% csrf_token %}
+                {% if form.errors %}
+                    <ul>
+                        {% for key,value in form.errors.items %}
+                            <li>{{ key|escape }} : {{ value|escape }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {{ modify_form }}
+                <button class="btn btn-success" type="submit">Submit</button>
+            </form>
         </div>
     </section>
 

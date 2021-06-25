@@ -6,6 +6,7 @@ INSERT INTO public.utilities_language(
 ('Assamese'),
 ('Bavarian'),
 ('Bengali'),
+('Brazilian Portuguese'),
 ('Bhojpuri'),
 ('Burmese'),
 ('Cebuano'),
