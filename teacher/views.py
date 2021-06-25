@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from lesson.models import Lesson
+from student.models import Student
 from .forms import TeacherRegisterForms, LoginForms
 
 # Create your views here.
@@ -83,3 +84,13 @@ def dashboard(request):
         'next_lessons': next_lessons,
     }
     return render(request, 'teacher/dashboard.html', context)
+
+@login_required()
+def teacher_students(request):
+    teacher_id = Teacher.objects.values_list('id', flat=True).filter(user_id=request.user.id)[0]
+    students = Student.objects.filter(teacher_id=teacher_id)
+
+    context = {
+        'students': students,
+    }
+    return render(request, 'teacher/students.html', context)
