@@ -5,7 +5,7 @@ from lesson_plan.models import LessonPlan
 from utilities.models import Level
 
 
-class CreateLessonPlanForms(forms.ModelForm):
+class LessonPlanForms(forms.ModelForm):
     lesson_link = forms.CharField()
     title = forms.CharField()
     levels = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=Level.to_tuple(), required=False)

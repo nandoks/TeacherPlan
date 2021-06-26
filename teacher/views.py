@@ -3,14 +3,15 @@ from datetime import date
 from django.contrib import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from lesson.models import Lesson
+from lesson_plan.models import LessonPlan
 from student.models import Student
-from .forms import TeacherRegisterForms, LoginForms
+from .forms import TeacherRegisterForms, LoginForms, TeacherUpdateForms
 
 # Create your views here.
-from .models import Teacher, CustomUser
+from .models import Teacher
 
 
 def register(request):
@@ -21,15 +22,9 @@ def register(request):
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             password = form.cleaned_data['password']
-            if CustomUser.objects.filter(email=email).exists():
-                return redirect('register_teacher')
 
-            user = CustomUser.objects.create_user(email=email, password=password, first_name=first_name,
-                                                  last_name=last_name)
-            user.save()
-
-            teacher = Teacher(user_id=user.id)
-            teacher.save()
+            Teacher.objects.create_user(email=email, first_name=first_name,
+                                        last_name=last_name, password=password)
 
             return redirect('login')
         else:
@@ -51,12 +46,9 @@ def login(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            print(email, password)
             user = authenticate(email=email, password=password)
-            print(user)
             if user is not None:
                 auth.login(request, user)
-                print('user loged in')
             return redirect('dashboard')
         else:
             return redirect('login')
@@ -76,21 +68,53 @@ def logout(request):
 
 @login_required(login_url='login')
 def dashboard(request):
-    teacher_id = Teacher.objects.values_list('id', flat=True).filter(user_id=request.user.id)[0]
-
-    next_lessons = Lesson.objects.filter(teacher_id=teacher_id, date__gt=date.today())
+    next_lessons = Lesson.objects.filter(teacher_id=request.user.id, date__gt=date.today())
 
     context = {
         'next_lessons': next_lessons,
     }
     return render(request, 'teacher/dashboard.html', context)
 
-@login_required()
+
+@login_required(login_url='login')
 def teacher_students(request):
-    teacher_id = Teacher.objects.values_list('id', flat=True).filter(user_id=request.user.id)[0]
-    students = Student.objects.filter(teacher_id=teacher_id)
+    students = Student.objects.filter(teacher_id=request.user.id)
 
     context = {
         'students': students,
     }
     return render(request, 'teacher/students.html', context)
+
+
+
+
+@login_required(login_url='login')
+def teacher_profile(request):
+    teacher = get_object_or_404(Teacher, pk=request.user.id)
+
+    context = {
+        'teacher': teacher,
+    }
+    return render(request, 'teacher/profile.html', context)
+
+
+@login_required(login_url='login')
+def teacher_update(request):
+    teacher = get_object_or_404(Teacher, pk=request.user.id)
+    if request.method == 'POST':
+        form = TeacherUpdateForms(request.POST, instance=teacher)
+        if form.is_valid():
+            form.save()
+            return redirect('teacher_profile')
+        else:
+            context = {
+                'update_form': form,
+            }
+            return render(request, 'teacher/update.html', context)
+
+    update_form = TeacherUpdateForms(instance=teacher)
+
+    context = {
+        'update_form': update_form,
+    }
+    return render(request, 'teacher/update.html', context)

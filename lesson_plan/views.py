@@ -1,29 +1,29 @@
 from datetime import date
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import render, redirect, get_object_or_404
 
 from lesson.models import Lesson
 from teacher.models import Teacher
-from .forms import CreateLessonPlanForms
+from .forms import LessonPlanForms
+from .models import LessonPlan
 
 
-# Create your views here.
 @login_required(login_url='login')
 def create(request):
-    teacher_id = Teacher.objects.values_list('id', flat=True).filter(user_id=request.user.id)[0]
-    lesson = Lesson.objects.filter(teacher_id=teacher_id, date__gt=date.today())
+    lesson = Lesson.objects.filter(teacher_id=request.user.id, date__gt=date.today(), lesson_plan_id__isnull=True)
 
     if request.method == 'POST':
-        form = CreateLessonPlanForms(request.POST)
+        form = LessonPlanForms(request.POST)
         if form.is_valid():
-            teacher = Teacher.objects.get(id=teacher_id)
+            teacher = Teacher.objects.get(id=request.user.id)
             lesson_plan = form.save(commit=False)
             lesson_plan.teacher = teacher
             lesson_plan.save()
 
             lesson_id = request.POST['lesson_id']
-            if lesson_id is None:
+            if lesson_id is not None:
                 lesson = Lesson.objects.get(pk=lesson_id)
                 lesson.lesson_plan = lesson_plan
                 lesson.save()
@@ -36,10 +36,61 @@ def create(request):
             }
             return render(request, 'lesson_plan/create.html', context)
 
-    create_form = CreateLessonPlanForms()
+    create_form = LessonPlanForms()
     context = {
         'create_form': create_form,
         'lessons': lesson,
     }
 
     return render(request, 'lesson_plan/create.html', context)
+
+
+@login_required(login_url='login')
+def lp_detail(request, lp_id):
+    lp = get_object_or_404(LessonPlan, pk=lp_id)
+    is_permission_denied(lp.teacher.id, request.user.id)
+
+    context = {
+        'lesson_plan': lp,
+    }
+    return render(request, 'lesson_plan/detail.html', context)
+
+
+@login_required(login_url='login')
+def lp_update(request, lp_id):
+    lesson_plan = get_object_or_404(LessonPlan, id=lp_id)
+    update_form = LessonPlanForms(instance=lesson_plan)
+    lesson = Lesson.objects.filter(teacher_id=request.user.id, date__gte=date.today(), lesson_plan_id__isnull=True)
+
+    if request.method == 'POST':
+        form = LessonPlanForms(data=request.POST, instance=lesson_plan)
+        if form.is_valid():
+            form.save()
+
+            return redirect('teacher_lesson_plans')
+        context = {
+            'update_form': form,
+            'lessons': lesson,
+        }
+        return render(request, 'lesson_plan/update.html', context)
+
+    context = {
+        'update_form': update_form,
+        'lessons': lesson,
+    }
+    return render(request, 'lesson_plan/update.html', context)
+
+
+@login_required(login_url='login')
+def lp_list(request):
+    lesson_plans = LessonPlan.objects.filter(teacher_id=request.user.id)
+
+    context = {
+        'lesson_plans': lesson_plans,
+    }
+    return render(request, 'lesson_plan/lp_list.html', context)
+
+
+def is_permission_denied(lp_id, user_id):
+    if lp_id != user_id:
+        raise PermissionDenied

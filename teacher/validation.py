@@ -1,4 +1,6 @@
-special_chars = "!@"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
+from teacher.models import Teacher
+
+special_chars = "!@"  # $%&'()*+,-./:;<=>?@[\]^_`{|}~"
 
 
 def password_match(password, password_confirmation, error_list):
@@ -13,3 +15,8 @@ def is_characters_only(input_value, input_label, error_list):
         error_list[input_label] = f'This field must not contain numbers'
     if any(char in special_chars for char in input_value):
         error_list[input_label] = f'This field must not contain special characters'
+
+
+def email_is_unique(email, input_label, error_list):
+    if Teacher.objects.filter(email=email).exists():
+        error_list[input_label] = f'This email is already taken'

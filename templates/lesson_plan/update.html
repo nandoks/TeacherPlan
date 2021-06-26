@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load widget_tweaks %}
+
+    <section class="container col-8">
+        <div class="container mt-2">
+            <h1>Lesson plan update</h1>
+            <form action="{% url 'lp_update' update_form.instance.id %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label for="{{ update_form.title.id_for_label }}">{{ update_form.title.label }}</label>
+                        {{ update_form.title|add_class:'form-control' }}
+                    </div>
+                    {{ update_form.level.title }}
+                </div>
+
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label for="{{ update_form.lesson_link.id_for_label }}">{{ update_form.lesson_link.label }}</label>
+                        {{ update_form.lesson_link|add_class:'form-control' }}
+                    </div>
+                    {{ update_form.lesson_link.error }}
+                </div>
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label for="{{ update_form.levels.id_for_label }}">{{ update_form.levels.label }}</label>
+                        {{ update_form.levels|add_class:'' }}
+                    </div>
+                    {{ update_form.level.error }}
+                </div>
+                {% if not update_form.instance.lesson.all %}
+                    <div class="row">
+                        <div class="form-group mb-2">
+                            <label class="form-select-label" for="lesson">Choose the lesson you want to associate this
+                                lesson plan to:</label>
+                            <select class="form-select" name="lesson_id" id="lesson_id">
+                                <option value="" selected>Choose your lesson</option>
+                                {% for lesson in lessons %}
+                                    <option value="{{ lesson.id }}">{{ lesson }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="row">
+                        <div class="form-group mb-2">
+                            <label class="form-select-label" for="lesson">The lesson associated to this lesson plan is</label>
+                            <select disabled class="form-select" name="lesson_id" id="lesson_id">
+                                <option value="{{ update_form.instance.lesson.all|first }}"
+                                        selected>{{ update_form.instance.lesson.all|first }}</option>
+                            </select>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row">
+                    <div class="form-group-inline mb-2">
+                        <label for="{{ update_form.private.id_for_label }}">{{ update_form.private.label }}</label>
+                        {{ update_form.private|add_class:'checkbox' }}
+                        {{ update_form.private.error }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label for="{{ update_form.task.id_for_label }}">{{ update_form.task.label }}</label>
+                        {{ update_form.task|add_class:'form-control' }}
+                        {{ update_form.task.error }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label for="{{ update_form.pre_task.id_for_label }}">{{ update_form.pre_task.label }}</label>
+                        {{ update_form.pre_task|add_class:'form-control' }}
+                        {{ update_form.pre_task.error }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label for="{{ update_form.ccq.id_for_label }}">{{ update_form.ccq.label }}</label>
+                        {{ update_form.ccq|add_class:'form-control' }}
+                        {{ update_form.ccq.error }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label for="{{ update_form.warmup.id_for_label }}">{{ update_form.warmup.label }}</label>
+                        {{ update_form.warmup|add_class:'form-control' }}
+                        {{ update_form.warmup.error }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group mb-2">
+                        <label for="{{ update_form.outline.id_for_label }}">{{ update_form.outline.label }}</label>
+                        {{ update_form.outline|add_class:'form-control' }}
+                        {{ update_form.warmup.error }}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+        </div>
+    </section>
+
+
+{% endblock %}

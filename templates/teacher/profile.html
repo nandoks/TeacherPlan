@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <section class="container col-8">
+        <div class="container mt-2">
+            <div class="row p-3">
+                <div class="col-8">
+                    <h1> My Profile</h1>
+                </div>
+                <div class="col-4 align-self-center d-flex flex-row-reverse">
+                    <button class="btn btn-primary" onclick="location.href='{% url 'teacher_update' %}'">
+                        Modify
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <p>Email: {{ teacher.email }}</p>
+                <p>First Name: {{ teacher.first_name }}</p>
+                <p>Last Name: {{ teacher.last_name }}</p>
+                <p>L1: {{ teacher.L1 }}</p>
+                <p>L2:
+                    {% for l in teacher.L2.all %}
+                        {{ l }}
+                        {% if not forloop.last %}
+                        ,
+                    {% endif %}
+                    {% endfor %}
+
+                </p>
+            </div>
+
+
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load widget_tweaks %}
+
+    <section class="container col-8">
+        <div class="container mt-2">
+            <div class="row p-3">
+                <div class="col-8">
+                    <h1>Lesson Plan detail</h1>
+                </div>
+                <div class="col-4 align-self-center">
+                    <button class="btn btn-success" onclick="location.href='{% url 'lp_update' lesson_plan.id %}'">
+                        Modify
+                    </button>
+                </div>
+            </div>
+
+
+            <p>Title: {{ lesson_plan.title }} </p>
+            <p>Lesson Link: {{ lesson_plan.lesson_link }}</p>
+            <p>Levels:
+                {% for level in lesson_plan.levels %}
+                    {{ level }}
+                    {% if not forloop.last %}
+                        ,
+                    {% endif %}
+                {% endfor %}
+            </p>
+            <p>Lesson:
+                {% if lesson_plan.lesson %}
+                    {% for lp in lesson_plan.lesson.all %}
+                        {{ lp }}
+                    {% endfor %}
+                {% endif %}
+            </p>
+            <p>Task: {{ lesson_plan.task }}</p>
+            <p>Pre-task: {{ lesson_plan.pre_task }}</p>
+            <p>CCQ: {{ lesson_plan.ccq }}</p>
+            <p>Warmup: {{ lesson_plan.warmup }}</p>
+            <p>Outline: {{ lesson_plan.outline }}</p>
+
+        </div>
+    </section>
+
+
+{% endblock %}

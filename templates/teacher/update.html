@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <section class="container col-8">
+        <div class="container mt-2">
+            <div class="row p-3">
+                <div class="col-8">
+                    <h1> Update profile</h1>
+                </div>
+            </div>
+            <div class="row">
+                <form method="POST" action="{% url 'teacher_update' %}">
+                    {% csrf_token %}
+                    {{ update_form }}
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+            </div>
+
+
+        </div>
+    </section>
+{% endblock %}

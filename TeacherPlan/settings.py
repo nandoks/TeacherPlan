@@ -110,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'teacher.CustomUser'
+AUTH_USER_MODEL = 'teacher.Teacher'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
