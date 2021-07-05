@@ -36,7 +36,7 @@
                         <label class="form-select-label" for="lesson">Choose the lesson you want to associate this
                             lesson plan to:</label>
                         <select class="form-select" name="lesson_id" id="lesson_id">
-                            <option value="{{ None }}" selected>Choose your lesson</option>
+                            <option value="" selected>Choose your lesson</option>
                             {% for lesson in lessons %}
                                 <option value="{{ lesson.id }}">{{ lesson }}</option>
                             {% endfor %}
@@ -50,41 +50,14 @@
                         {{ create_form.private.error }}
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group mb-2">
-                        <label for="{{ create_form.task.id_for_label }}">{{ create_form.task.label }}</label>
-                        {{ create_form.task|add_class:'form-control' }}
-                        {{ create_form.task.error }}
+                {% for s in stages %}
+                    <div class="row">
+                        <div class="form-group-inline mb-2">
+                            <label for="stage{{ forloop.counter }}">Stage {{ forloop.counter }}</label>
+                            <textarea class="form-control" name="stages[]">{{ s }}</textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group mb-2">
-                        <label for="{{ create_form.pre_task.id_for_label }}">{{ create_form.pre_task.label }}</label>
-                        {{ create_form.pre_task|add_class:'form-control' }}
-                        {{ create_form.pre_task.error }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group mb-2">
-                        <label for="{{ create_form.ccq.id_for_label }}">{{ create_form.ccq.label }}</label>
-                        {{ create_form.ccq|add_class:'form-control' }}
-                        {{ create_form.ccq.error }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group mb-2">
-                        <label for="{{ create_form.warmup.id_for_label }}">{{ create_form.warmup.label }}</label>
-                        {{ create_form.warmup|add_class:'form-control' }}
-                        {{ create_form.warmup.error }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group mb-2">
-                        <label for="{{ create_form.outline.id_for_label }}">{{ create_form.outline.label }}</label>
-                        {{ create_form.outline|add_class:'form-control' }}
-                        {{ create_form.warmup.error }}
-                    </div>
-                </div>
+                {% endfor %}
                 <button type="submit" class="btn btn-success">Create</button>
             </form>
         </div>

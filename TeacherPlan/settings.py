@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'feedback',
     'teacher',
     'widget_tweaks',
-    'multiselectfield',
     'tempus_dominus',
 ]
 

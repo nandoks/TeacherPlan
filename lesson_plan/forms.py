@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.postgres.forms import SplitArrayField
+from django.db.models import TextField
 from django.forms import Textarea, ChoiceField
 
 from lesson_plan.models import LessonPlan
@@ -17,7 +19,7 @@ class LessonPlanForms(forms.ModelForm):
 
     class Meta:
         model = LessonPlan
-        exclude = ['teacher']
+        exclude = ['teacher', 'stages']
         labels = {
             'pre_task': 'Pre-task',
         }
@@ -25,11 +27,6 @@ class LessonPlanForms(forms.ModelForm):
             'lessons': ChoiceField,
             'title': Textarea(attrs={'rows': 1}),
             'lesson_link': Textarea(attrs={'rows': 1}),
-            'pre_task': Textarea(attrs={'rows': 4}),
-            'task': Textarea(attrs={'rows': 4}),
-            'ccq': Textarea(attrs={'rows': 4}),
-            'warmup': Textarea(attrs={'rows': 4}),
-            'outline': Textarea(attrs={'rows': 4}),
         }
 
     def clean(self):

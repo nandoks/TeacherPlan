@@ -33,11 +33,10 @@
                     {% endfor %}
                 {% endif %}
             </p>
-            <p>Task: {{ lesson_plan.task }}</p>
-            <p>Pre-task: {{ lesson_plan.pre_task }}</p>
-            <p>CCQ: {{ lesson_plan.ccq }}</p>
-            <p>Warmup: {{ lesson_plan.warmup }}</p>
-            <p>Outline: {{ lesson_plan.outline }}</p>
+            {% for stage in lesson_plan.stages %}
+                <p>Stage {{ forloop.counter }}: {{ stage }}</p>
+            {% endfor %}
+
 
         </div>
     </section>

@@ -16,14 +16,19 @@ def create(request):
 
     if request.method == 'POST':
         form = LessonPlanForms(request.POST)
+        stages = [s for s in request.POST.getlist('stages[]') if s != '']
+        print(stages)
         if form.is_valid():
             teacher = Teacher.objects.get(id=request.user.id)
             lesson_plan = form.save(commit=False)
             lesson_plan.teacher = teacher
+
+            lesson_plan.stages = stages
             lesson_plan.save()
 
             lesson_id = request.POST['lesson_id']
-            if lesson_id is not None:
+
+            if lesson_id.isnumeric():
                 lesson = Lesson.objects.get(pk=lesson_id)
                 lesson.lesson_plan = lesson_plan
                 lesson.save()
@@ -32,7 +37,8 @@ def create(request):
         else:
             context = context = {
                 'create_form': form,
-                'lessons': lesson
+                'lessons': lesson,
+                'stages': stages,
             }
             return render(request, 'lesson_plan/create.html', context)
 
@@ -40,6 +46,7 @@ def create(request):
     context = {
         'create_form': create_form,
         'lessons': lesson,
+        'stages': [''] * 6
     }
 
     return render(request, 'lesson_plan/create.html', context)
