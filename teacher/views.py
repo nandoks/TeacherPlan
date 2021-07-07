@@ -30,14 +30,14 @@ def register(request):
         else:
             context = {'register_form': form}
             return render(request, 'teacher/register.html', context)
-    else:
-        register_form = TeacherRegisterForms()
 
-        context = {
-            'register_form': register_form,
-        }
+    register_form = TeacherRegisterForms()
 
-        return render(request, 'teacher/register.html', context)
+    context = {
+        'register_form': register_form,
+    }
+
+    return render(request, 'teacher/register.html', context)
 
 
 def login(request):
