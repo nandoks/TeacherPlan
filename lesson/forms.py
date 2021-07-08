@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import DateInput, TimeInput
+from tempus_dominus.widgets import TimePicker
 
 from .models import Lesson
 from .validation import *
@@ -7,16 +8,36 @@ from .validation import *
 
 class LessonRegisterForms(forms.ModelForm):
     date = forms.DateField(widget=DateInput(attrs={'type': 'date'}))
-    start = forms.TimeField(label='Lesson begins at:', widget=TimeInput(attrs={'type': 'time'}))
-    end = forms.TimeField(label='Lesson ends at:', widget=TimeInput(attrs={'type': 'time'}))
+    start = forms.TimeField(label='Lesson begins at:',
+                            widget=TimePicker(
+                                options={
+                                    'format': 'HH:mm',
+                                    'defaultDate': '2021-01-01T08:00:00',
+                                    'stepping': '5',
+                                },
+                                attrs={
+                                    'icon-toggle':True,
+                                    'append': 'fa fa-clock',
+                                },
+                            ))
+    end = forms.TimeField(label='Lesson ends at:',
+                          widget=TimePicker(
+                              options={
+                                  'format':'HH:mm',
+                                  'defaultDate': '2021-01-01T08:30:00',
+                                  'stepping': '5',
+                              },
+                              attrs={
+                                  'icon-toggle': True,
+                                  'append': 'fa fa-clock',
+                              },
+                          ))
 
     class Meta:
         model = Lesson
-        fields = ['date',
-                  'start',
-                  'end',
-                  'subject',
-                  ]
+        fields = [
+            'subject',
+        ]
 
     def clean(self):
         date = self.cleaned_data.get('date')
