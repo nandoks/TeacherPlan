@@ -74,7 +74,7 @@ def lp_update(request, lp_id):
         if form.is_valid():
             form.save()
 
-            return redirect('teacher_lesson_plans')
+            return redirect('lp_list')
         context = {
             'update_form': form,
             'lessons': lesson,

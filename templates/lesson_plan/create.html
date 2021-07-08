@@ -33,10 +33,10 @@
                 </div>
                 <div class="row">
                     <div class="form-group mb-2">
-                        <label class="form-select-label" for="lesson">Choose the lesson you want to associate this
+                        <label class="form-select-label" for="lesson">Choose the session you want to associate this
                             lesson plan to:</label>
                         <select class="form-select" name="lesson_id" id="lesson_id">
-                            <option value="" selected>Choose your lesson</option>
+                            <option value="" selected>Choose your session</option>
                             {% for lesson in lessons %}
                                 <option value="{{ lesson.id }}">{{ lesson }}</option>
                             {% endfor %}

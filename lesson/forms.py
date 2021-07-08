@@ -16,14 +16,14 @@ class LessonRegisterForms(forms.ModelForm):
                                     'stepping': '5',
                                 },
                                 attrs={
-                                    'icon-toggle':True,
+                                    'icon-toggle': True,
                                     'append': 'fa fa-clock',
                                 },
                             ))
     end = forms.TimeField(label='Lesson ends at:',
                           widget=TimePicker(
                               options={
-                                  'format':'HH:mm',
+                                  'format': 'HH:mm',
                                   'defaultDate': '2021-01-01T08:30:00',
                                   'stepping': '5',
                               },
@@ -37,6 +37,9 @@ class LessonRegisterForms(forms.ModelForm):
         model = Lesson
         fields = [
             'subject',
+            'end',
+            'start',
+            'date',
         ]
 
     def clean(self):
