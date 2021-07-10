@@ -6,6 +6,11 @@
             <h1>Register</h1>
             <form action="" method="POST">
                 {% csrf_token %}
+                {% if register_form.non_field_errors %}
+                    {% for error in register_form.non_field_errors %}
+                        <p class="alert alert-danger" role="alert">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
                 <div class="row">
                     <div class="form-group col -4">
                         <label for="{{ register_form.date.id_for_label }}">{{ register_form.date.label }}</label>

@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 
 from student.models import Student
@@ -20,15 +21,17 @@ def register_lesson(request):
             lesson.student = student
             teacher = Teacher.objects.get(pk=request.user.id)
             lesson.teacher = teacher
-            lesson.save()
-            form.save_m2m()
-            return redirect('dashboard')
-        else:
-            context = {
-                'register_form': form,
-                'students': students,
-            }
-            return render(request, 'lesson/register.html', context)
+            try:
+                lesson.save()
+                form.save_m2m()
+                return redirect('dashboard')
+            except ValidationError as exc:
+                form.add_error('__all__', exc)
+        context = {
+            'register_form': form,
+            'students': students,
+        }
+        return render(request, 'lesson/register.html', context)
 
     lesson_form = LessonRegisterForms()
 

@@ -1,5 +1,8 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from datetime import datetime
+
+from django.db.models import Q
 
 
 class Lesson(models.Model):
@@ -18,3 +21,25 @@ class Lesson(models.Model):
 
     class Meta:
         ordering = ['date']
+
+    def save(self, *args, **kwargs):
+        if self.is_teacher_overlaping():
+            raise ValidationError('Teacher lesson overlaping with an existing lesson')
+        if self.is_student_overlaping():
+            raise ValidationError('Student lesson overlaping with an existing lesson')
+
+        super().save(*args, **kwargs)
+
+    def is_teacher_overlaping(self):
+        lesson = Lesson.objects.filter(
+            Q(teacher=self.teacher) & Q(date=self.date)
+            & (Q(start__gte=self.start) & Q(start__lt=self.end))
+            | (Q(end__gt=self.start) & Q(end__lte=self.end)))
+        return len(lesson) > 0
+
+    def is_student_overlaping(self):
+        lesson = Lesson.objects.filter(
+            Q(student=self.student) & Q(date=self.date)
+            & (Q(start__gte=self.start) & Q(start__lt=self.end))
+            | (Q(end__gt=self.start) & Q(end__lte=self.end)))
+        return len(lesson) > 0
