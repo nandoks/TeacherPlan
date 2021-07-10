@@ -2,7 +2,7 @@ from datetime import date
 
 from django.contrib import auth
 from django.contrib.auth import authenticate
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect, get_object_or_404
 
 from lesson.models import Lesson
@@ -15,6 +15,8 @@ from .models import Teacher
 
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
     if request.method == 'POST':
         form = TeacherRegisterForms(request.POST)
         if form.is_valid():
@@ -41,6 +43,8 @@ def register(request):
 
 
 def login(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
     if request.method == 'POST':
         form = LoginForms(request.POST)
         if form.is_valid():
@@ -84,8 +88,6 @@ def teacher_students(request):
         'students': students,
     }
     return render(request, 'teacher/students.html', context)
-
-
 
 
 @login_required(login_url='login')
