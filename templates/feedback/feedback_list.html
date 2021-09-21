@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <section class="container col-8">
+        <div class="container mt-2">
+            <div class="row p-3">
+                <div class="col-8">
+                    <h1> My Feedbacks list</h1>
+                </div>
+                <div class="col-4 align-self-center d-flex flex-row-reverse">
+                    <button class="btn btn-primary" onclick="location.href=''">
+                        Create new Feedback
+                    </button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-dark table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <td>Lesson</td>
+                        <td>Student</td>
+                        <td>Lesson link</td>
+                        <td>Detail</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for fb in feedbacks %}
+                        <tr>
+                            <td>{{ fb.lesson }}</td>
+                            <td>
+                               {{ fb.student }}
+                            </td>
+                            <td>{{ fb.lesson.lesson_plan.lesson_link }}</td>
+                            <td>
+                                <button class="btn btn-info" type="submit"
+                                        onclick="location.href='{% url 'lp_detail'  fb.lesson.id %}'">Details
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </section>
+{% endblock %}
