@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.password_validation import validate_password
 
-from teacher.validation import *
+from teacher.teacher_validation import *
 
 
 class TeacherRegisterForms(forms.Form):

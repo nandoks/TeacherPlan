@@ -3,7 +3,7 @@ from django.forms import DateInput, TimeInput
 from tempus_dominus.widgets import TimePicker
 
 from .models import Lesson
-from .validation import *
+from .lesson_validation import *
 
 
 class LessonRegisterForms(forms.ModelForm):

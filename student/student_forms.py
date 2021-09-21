@@ -1,7 +1,7 @@
 from django import forms
 
 from student.models import Student
-from teacher.validation import is_characters_only
+from teacher.teacher_validation import is_characters_only
 from utilities.models import Level
 
 

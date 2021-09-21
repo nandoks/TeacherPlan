@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from lesson.models import Lesson
 from teacher.models import Teacher
-from .forms import LessonPlanForms
+from .lesson_plan_forms import LessonPlanForms
 from .models import LessonPlan
 
 

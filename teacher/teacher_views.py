@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from lesson.models import Lesson
 from lesson_plan.models import LessonPlan
 from student.models import Student
-from .forms import TeacherRegisterForms, LoginForms, TeacherUpdateForms
+from .teacher_forms import TeacherRegisterForms, LoginForms, TeacherUpdateForms
 
 # Create your views here.
 from .models import Teacher

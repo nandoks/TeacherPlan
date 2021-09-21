@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 
 from student.models import Student
 from teacher.models import Teacher
-from .forms import LessonRegisterForms
+from .lesson_forms import LessonRegisterForms
 from .models import Lesson
 
 

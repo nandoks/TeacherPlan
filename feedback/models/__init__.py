@@ -1,1 +1,1 @@
-from .feedback import Feedback
+from .feedback_models import Feedback

@@ -1,2 +1,2 @@
-from .teacher import Teacher
+from .teacher_model import Teacher
 

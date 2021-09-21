@@ -1,1 +1,1 @@
-from .lesson import Lesson
+from .lesson_models import Lesson

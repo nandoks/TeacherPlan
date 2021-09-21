@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 
-from student.forms import StudentRegisterForms, StudentModifyForms
+from student.student_forms import StudentRegisterForms, StudentModifyForms
 from student.models import Student
 from teacher.models import Teacher
 

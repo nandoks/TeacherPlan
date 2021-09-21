@@ -1,3 +1,3 @@
-from .language import Language
-from .level import Level
-from .subject import Subject
+from .language_model import Language
+from .level_model import Level
+from .subject_model import Subject
